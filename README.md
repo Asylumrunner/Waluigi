@@ -1,2 +1,14 @@
 # Waluigi
 A Discord bot which posts alerts based on the posts of Twitter user Wario64
+
+### Who Is Wario64
+[Wario64](https://twitter.com/Wario64) is a long-running Twitter account which posts deals and availability for video games, video game consoles, and other nerd-adjacent paraphenalia. They (the account runner or runners are anonymous, thus I will use "they" to refer to them) are one of the leading aggregators for sales information in video games, and are considered a valuable resource for people looking to snag deals, including helping people obtain Xbox Series Xs and Playstation 5s through supply shortages which began due to the COVID-19 pandemic (in a bleakly comedic moment, they also [assisted people in finding vaccination appointments](https://twitter.com/wario64/status/1384987791398825987) during the initial COVID-19 vaccine rollout).
+
+### Why Does This Bot Exist
+Wario64 primarily disseminates information through Twitter. Because of this, their feed is a continuous stream of all available deals, each of which may or may not be of interest to a given person, and are also subject to the strange and blackboxed algorithm by which Twitter displays tweets of a given account you follow, meaning you either have to risk missing a relevant tweet because it just got lost in your feed or Twitter simply did not show it to you, or opting into notifications for the account and being bombarded sometimes dozens of times a day with tweets for deals for everything from Playstation 5s to anime figures to [a cookbook themed after the movie Alien](https://twitter.com/Wario64/status/1433522076137115648), an object whose existence confuses me more than any computational geometry algorithm.
+
+Thus, this bot was designed as a project to filter Wario64's feed for items of personal interest, forwarding relevant tweets of theirs to a quieter feed of information personalized to the user(s). Due to it becoming my main social network of choice nowadays, and the ease of use of programming for it, I elected to forward this information to a Discord bot, which will post Wario64's tweet to a private server for which I can get notifications. This bot then also uses Discord as a UI, allowing the user to do things like add and remove key terms from the filter the bot uses to select relevant Wario64 tweets.
+
+### Limitations
+This bot runs hourly (based on a cron job), pulling recent tweets from Wario64's feed, meaning that if any particular deal has a lifetime of less than an hour, or sells out in less than an hour, there's a chance that by the time the bot wakes up and checks for new tweets, the deal will already have run out. This makes it unsuitable for searching for things like a Playstation 5 or an RTX 3080 (both of which notoriously sell out in a matter of minutes), but A) I don't really need a Playstation 5 or a 3080 right now, and B) there are literally countless other Discord bots that are better suited for that.
+
