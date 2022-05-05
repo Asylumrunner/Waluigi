@@ -12,3 +12,5 @@ Thus, this bot was designed as a project to filter Wario64's feed for items of p
 ### Limitations
 This bot runs hourly (based on a cron job), pulling recent tweets from Wario64's feed, meaning that if any particular deal has a lifetime of less than an hour, or sells out in less than an hour, there's a chance that by the time the bot wakes up and checks for new tweets, the deal will already have run out. This makes it unsuitable for searching for things like a Playstation 5 or an RTX 3080 (both of which notoriously sell out in a matter of minutes), but A) I don't really need a Playstation 5 or a 3080 right now, and B) there are literally countless other Discord bots that are better suited for that.
 
+### Architecture
+![System Architecture Diagram](./img/discordbot.drawio.svg)
