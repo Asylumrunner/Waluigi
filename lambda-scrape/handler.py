@@ -1,3 +1,8 @@
+import logging
 
-def lambda_handler(event, context):
-    return event
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
+def handler(event, context):
+    print('yay')
