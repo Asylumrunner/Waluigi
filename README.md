@@ -14,3 +14,13 @@ This bot runs hourly (based on a cron job), pulling recent tweets from Wario64's
 
 ### Architecture
 ![System Architecture Diagram](./img/discordbot.drawio.svg)
+
+Four primary components comprise the architecture of Waluigi.
+
+The user interface for the bot is a user-hosted or -managed Discord channel, ideally one they have administrator priveleges to. A Discord bot, written in Python 3.10 and hosted in ECS as a Dockerized application, which for simplicity I will also call "Waluigi", sits in this server and recieves commands from the user via text prefixed with keywords (a list of bot keywords and their functionality can be found below). Through this bot, the user registers their server with the application, sets what terms they want to recieve deals for, etc.
+
+It should be noted that the actual posting of Wario64 tweets to this channel is _not_ done by the bot itself. Instead, the bot sets up a Discord webhook which is then passed through the entire system and is eventually used by lambda-scrape to post Tweets it finds. This is largely due to the way Discord bots are designed, as trying to get one to post as a result of a stimuli outside of the actual Discord channel (such as a timer or tweets), is a fairly large annoyance.
+
+All configuration changes made by this Discord bot are sent via API call to the first of two AWS Lambda functions, lambda-bot, a Python 3.9 Flask application deployed to Lambda via Zappa. lambda-bot is designed to manage all of the requests from the Discord bot, mostly in the form of creating, updating, and deleting records in a MySQL database running in RDS which manages all configuration for Waluigi across all servers.
+
+A second AWS Lambda called lambda-scrape, also a Python 3.9 application deployed to Lambda, handles the actual act of scraping. Upon wakeup, it pulls from the RDS instance to determine what search terms to search for, as well as where to send the results. A bit of intelligent joining done during this ensures that if multiple servers with Waluigi request the same search term, only one search is done, with the results being sent to multiple servers. lamdba-scrape then uses the Twitter API to perform searches for relevant terms (relevant here being "asked for by one or more Waluigi users") from Wario64 since last wakeup, collates those results, and then sends them to the appropriate Discord servers via webhook.

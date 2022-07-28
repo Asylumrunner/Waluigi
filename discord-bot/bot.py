@@ -20,7 +20,7 @@ async def on_message(message):
         # and will create a webhook by which the scraper lambda can post
         # Note that this requires Manage Webhook permissions
 
-        if not message.channel.permissions_for(client.user).manage_webhooks:
+        if not message.channel.guild.me.guild_permissions.manage_webhooks:
             await message.channel.send("```ERROR: Waluigi must have Manage Webhooks permissions to register this channel```")
         else:
             try:
@@ -31,6 +31,7 @@ async def on_message(message):
                     "server": message.guild.name,
                     "channel": message.channel.name
                 }).text
+                print(handler_lambda_url + '/register')
                 response = json.loads(register_response)
                 if not response['status_code'] == 200:
                     webhook.delete()
@@ -94,7 +95,7 @@ async def on_message(message):
                     await message.channel.send("```Term removed")
 
     if message.content.startswith("$deregister"):
-        if not message.channel.permissions_for(client.user).manage_webhooks:
+        if not message.channel.guild.me.guild_permissions.manage_webhooks:
             await message.channel.send("```ERROR: Waluigi must have Manage Webhooks permissions to deregister this channel```")
         else:
             webhooks = await message.channel.webhooks()
